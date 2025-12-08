@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.chart.PieChart?>
+<?import javafx.scene.control.Button?>
+
+<VBox xmlns:fx="http://javafx.com/fxml" fx:controller="com.mycompany.penilaian_mahasiswa.DashboardController">
+    <PieChart fx:id="nilaiPieChart"/>
+    
+    <Button text="Tampilkan Statistik" onAction="#tampilkanStatistik"/>
+</VBox>

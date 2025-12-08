@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.Spinner?>
+
+<VBox xmlns:fx="http://javafx.com/fxml" fx:controller="com.mycompany.penilaian_mahasiswa.SecondaryController" 
+      spacing="10" padding="20" 
+      stylesheets="@../styles/style.css">
+    <VBox fx:id="mahasiswaSection">
+        <TextField fx:id="npmField" promptText="NPM"/>
+        <TextField fx:id="namaField" promptText="Nama"/>
+        <TextField fx:id="jurusanField" promptText="Jurusan"/>
+        <TextField fx:id="angkatanField" promptText="Angkatan"/>
+        <TextField fx:id="prodiField" promptText="Program Studi"/>
+        
+        <Button text="Tambah Mahasiswa" onAction="#saveMahasiswa"/>
+        <TableView fx:id="mahasiswaTable">
+            <columns>
+                <TableColumn text="NPM" />
+                <TableColumn text="Nama" />
+                <TableColumn text="Jurusan" />
+                <TableColumn text="Angkatan" />
+                <TableColumn text="Program Studi" />
+            </columns>
+        </TableView>
+    </VBox>
+    <VBox fx:id="mataKuliahSection">
+        <TextField fx:id="namaMatkulField" promptText="Nama Mata Kuliah"/>
+        <Spinner fx:id="sksField" promptText="SKS"/>
+        
+        <TextField fx:id="persentaseAbsensiField" promptText="Persentase Absensi"/>
+        <TextField fx:id="persentaseTugasField" promptText="Persentase Tugas"/>
+        <TextField fx:id="persentaseQuizField" promptText="Persentase Quiz"/>
+        <TextField fx:id="persentaseUtsField" promptText="Persentase UTS"/>
+        <TextField fx:id="persentaseUasField" promptText="Persentase UAS"/>
+        <TextField fx:id="persentaseResponsiField" promptText="Persentase Responsi"/>
+        
+        <Button text="Simpan Mata Kuliah" onAction="#saveMataKuliah"/>
+    </VBox>
+    <VBox fx:id="nilaiSection">
+        <TextField fx:id="nilaiUasField" promptText="Nilai UAS"/>
+        <TextField fx:id="nilaiUtsField" promptText="Nilai UTS"/>
+        
+        <Spinner fx:id="jumlahQuizField" promptText="Jumlah Quiz"/>
+        <TextField fx:id="nilaiQuizField" promptText="Nilai Quiz"/>
+        
+        <Spinner fx:id="jumlahTugasField" promptText="Jumlah Tugas"/>
+        <TextField fx:id="nilaiTugasField" promptText="Nilai Tugas"/>
+        
+        <TextField fx:id="jumlahPertemuanField" promptText="Jumlah Pertemuan"/>
+        <TextField fx:id="jumlahHadirField" promptText="Jumlah Hadir"/>
+        
+        <Button text="Simpan Nilai" onAction="#saveNilai"/>
+    </VBox>
+    
+</VBox>

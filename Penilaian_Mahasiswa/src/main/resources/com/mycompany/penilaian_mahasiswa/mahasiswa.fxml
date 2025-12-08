@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.TableColumn?>
+
+<VBox xmlns:fx="http://javafx.com/fxml" fx:controller="com.mycompany.penilaian_mahasiswa.SecondaryController">
+    <TableView fx:id="mahasiswaTable">
+        <columns>
+            <TableColumn fx:id="npmColumn" text="NPM" prefWidth="100" />
+            <TableColumn fx:id="namaColumn" text="Nama" prefWidth="200" />
+            <TableColumn fx:id="jurusanColumn" text="Jurusan" prefWidth="150" />
+            <TableColumn fx:id="angkatanColumn" text="Angkatan" prefWidth="100" />
+            <TableColumn fx:id="prodiColumn" text="Program Studi" prefWidth="150" />
+        </columns>
+    </TableView>
+    <TextField fx:id="npmField" promptText="NPM"/>
+    <TextField fx:id="namaField" promptText="Nama"/>
+    <TextField fx:id="jurusanField" promptText="Jurusan"/>
+    <TextField fx:id="angkatanField" promptText="Angkatan"/>
+    <TextField fx:id="prodiField" promptText="Program Studi"/>
+    <Button text="Tambah Mahasiswa" onAction="#saveMahasiswa"/>
+</VBox>

@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.TableColumn?>
+
+<VBox xmlns:fx="http://javafx.com/fxml" fx:controller="com.mycompany.penilaian_mahasiswa.MataKuliahController">
+    <TextField fx:id="idMatkulField" promptText="ID Mata Kuliah"/>
+    <TextField fx:id="namaMatkulField" promptText="Nama Mata Kuliah"/>
+    <TextField fx:id="sksField" promptText="SKS"/>
+    <TextField fx:id="persentaseAbsensiField" promptText="Persentase Absensi"/>
+    <TextField fx:id="persentaseTugasField" promptText="Persentase Tugas"/>
+    <TextField fx:id="persentaseQuizField" promptText="Persentase Quiz"/>
+    <TextField fx:id="persentaseUtsField" promptText="Persentase UTS"/>
+    <TextField fx:id="persentaseUasField" promptText="Persentase UAS"/>
+    <TextField fx:id="persentaseResponsiField" promptText="Persentase Responsi (Opsional)"/>
+
+    <Button text="Tambah Mata Kuliah" onAction="#saveMataKuliah"/>
+    <TableView fx:id="mataKuliahTable">
+        <columns>
+            <TableColumn fx:id="idMatkulColumn" text="ID Mata Kuliah" prefWidth="100" />
+            <TableColumn fx:id="namaMatkulColumn" text="Nama Mata Kuliah" prefWidth="200" />
+            <TableColumn fx:id="sksColumn" text="SKS" prefWidth="100" />
+        </columns>
+    </TableView>
+</VBox>
