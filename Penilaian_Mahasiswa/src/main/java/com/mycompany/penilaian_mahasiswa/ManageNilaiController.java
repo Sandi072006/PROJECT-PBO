@@ -194,14 +194,7 @@ public class ManageNilaiController implements Initializable {
             }
             
             if (fxmlUrl == null) {
-                showAlert("Error", 
-                    """
-                    File input_nilai.fxml tidak ditemukan!
-                    
-                    Pastikan file ada di:
-                    src/main/resources/com/mycompany/penilaian_mahasiswa/input_nilai.fxml
-                    
-                    Dan sudah di-rebuild project Maven.""", 
+                showAlert("Error", "File input_nilai.fxml tidak ditemukan!\n" + "\n" + "Pastikan file ada di:\n" + "src/main/resources/com/mycompany/penilaian_mahasiswa/input_nilai.fxml\n" + "\n" + "Dan sudah di-rebuild project Maven.", 
                     Alert.AlertType.ERROR);
                 return;
             }
