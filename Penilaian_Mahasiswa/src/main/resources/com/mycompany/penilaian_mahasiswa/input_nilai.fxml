@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+
+<ScrollPane xmlns="http://javafx.com/javafx/11.0.1"
+            xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="com.mycompany.penilaian_mahasiswa.InputNilaiController"
+            fitToWidth="true"
+            style="-fx-background-color: #f5f5f5;">
+
+    <content>
+        <VBox spacing="20.0">
+            <padding>
+                <Insets top="30.0" right="30.0" bottom="30.0" left="30.0"/>
+            </padding>
+            
+            <!-- Header -->
+            <VBox spacing="10.0" style="-fx-background-color: #3498db; -fx-padding: 20;">
+                <Label text="Input Nilai Mahasiswa" 
+                       style="-fx-font-size: 24px; -fx-font-weight: bold; -fx-text-fill: white;"/>
+                <HBox spacing="20.0">
+                    <Label text="Mahasiswa:" style="-fx-text-fill: white; -fx-font-weight: bold;"/>
+                    <Label fx:id="mahasiswaLabel" style="-fx-text-fill: white;"/>
+                </HBox>
+                <HBox spacing="20.0">
+                    <Label text="Mata Kuliah:" style="-fx-text-fill: white; -fx-font-weight: bold;"/>
+                    <Label fx:id="mataKuliahLabel" style="-fx-text-fill: white;"/>
+                </HBox>
+            </VBox>
+
+            <!-- Form Content -->
+            <VBox spacing="20.0">
+                
+                <!-- Section: Nilai Ujian -->
+                <VBox spacing="15.0" style="-fx-background-color: white; -fx-padding: 20;">
+                    <Label text="📝 Nilai Ujian" style="-fx-font-size: 18px; -fx-font-weight: bold; -fx-text-fill: #2c3e50;"/>
+                    <Separator/>
+                    <GridPane hgap="15.0" vgap="15.0">
+                        <Label text="Nilai UTS:" GridPane.columnIndex="0" GridPane.rowIndex="0" style="-fx-font-size: 14px; -fx-font-weight: bold;"/>
+                        <TextField fx:id="nilaiUtsField" GridPane.columnIndex="1" GridPane.rowIndex="0" promptText="0-100" prefWidth="200.0" style="-fx-font-size: 13px;"/>
+                        
+                        <Label text="Nilai UAS:" GridPane.columnIndex="0" GridPane.rowIndex="1" style="-fx-font-size: 14px; -fx-font-weight: bold;"/>
+                        <TextField fx:id="nilaiUasField" GridPane.columnIndex="1" GridPane.rowIndex="1" promptText="0-100" prefWidth="200.0" style="-fx-font-size: 13px;"/>
+                    </GridPane>
+                </VBox>
+
+                <!-- Section: Nilai Quiz -->
+                <VBox spacing="15.0" style="-fx-background-color: white; -fx-padding: 20;">
+                    <Label text="📋 Nilai Quiz" style="-fx-font-size: 18px; -fx-font-weight: bold; -fx-text-fill: #2c3e50;"/>
+                    <Separator/>
+                    <GridPane fx:id="quizGridPane" hgap="10.0" vgap="10.0"/>
+                </VBox>
+
+                <!-- Section: Nilai Tugas -->
+                <VBox spacing="15.0" style="-fx-background-color: white; -fx-padding: 20;">
+                    <Label text="📚 Nilai Tugas" style="-fx-font-size: 18px; -fx-font-weight: bold; -fx-text-fill: #2c3e50;"/>
+                    <Separator/>
+                    <GridPane fx:id="tugasGridPane" hgap="10.0" vgap="10.0"/>
+                </VBox>
+
+                <!-- Section: Absensi -->
+                <VBox spacing="15.0" style="-fx-background-color: white; -fx-padding: 20;">
+                    <Label text="✅ Absensi" style="-fx-font-size: 18px; -fx-font-weight: bold; -fx-text-fill: #2c3e50;"/>
+                    <Separator/>
+                    <GridPane hgap="15.0" vgap="15.0">
+                        <Label text="Jumlah Pertemuan:" GridPane.columnIndex="0" GridPane.rowIndex="0" style="-fx-font-size: 14px; -fx-font-weight: bold;"/>
+                        <TextField fx:id="jumlahPertemuanField" GridPane.columnIndex="1" GridPane.rowIndex="0" promptText="Contoh: 14" prefWidth="200.0" style="-fx-font-size: 13px;"/>
+                        
+                        <Label text="Jumlah Hadir:" GridPane.columnIndex="0" GridPane.rowIndex="1" style="-fx-font-size: 14px; -fx-font-weight: bold;"/>
+                        <TextField fx:id="jumlahHadirField" GridPane.columnIndex="1" GridPane.rowIndex="1" promptText="Contoh: 12" prefWidth="200.0" style="-fx-font-size: 13px;"/>
+                    </GridPane>
+                </VBox>
+
+                <!-- Section: Responsi (Optional) -->
+                <VBox spacing="15.0" style="-fx-background-color: white; -fx-padding: 20;">
+                    <Label text="🔬 Nilai Responsi (Opsional)" style="-fx-font-size: 18px; -fx-font-weight: bold; -fx-text-fill: #2c3e50;"/>
+                    <Separator/>
+                    <HBox spacing="15.0" alignment="CENTER_LEFT">
+                        <Label text="Nilai Responsi:" style="-fx-font-size: 14px; -fx-font-weight: bold;"/>
+                        <TextField fx:id="nilaiResponsiField" promptText="0-100 (kosongkan jika tidak ada)" prefWidth="250.0" style="-fx-font-size: 13px;"/>
+                    </HBox>
+                </VBox>
+
+            </VBox>
+
+            <!-- Button Section -->
+            <HBox spacing="15.0" alignment="CENTER">
+                <padding>
+                    <Insets top="20.0"/>
+                </padding>
+                <Button fx:id="simpanButton" text="💾 Simpan Semua Nilai" onAction="#handleSimpan"
+                        prefWidth="250.0" prefHeight="45.0"
+                        style="-fx-background-color: #27ae60; -fx-text-fill: white; -fx-font-size: 16px; -fx-font-weight: bold;"/>
+                <Button fx:id="batalButton" text="❌ Batal" onAction="#handleBatal"
+                        prefWidth="150.0" prefHeight="45.0"
+                        style="-fx-background-color: #e74c3c; -fx-text-fill: white; -fx-font-size: 16px; -fx-font-weight: bold;"/>
+            </HBox>
+            
+        </VBox>
+    </content>
+
+</ScrollPane>
