@@ -1,0 +1,182 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+
+<ScrollPane xmlns="http://javafx.com/javafx/11.0.1"
+            xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="com.mycompany.penilaian_mahasiswa.NilaiAkhirController"
+            fitToWidth="true">
+
+<VBox spacing="20" 
+      style="-fx-padding: 30; -fx-background-color: #ecf0f1;">
+    
+    <!-- Header -->
+    <HBox alignment="CENTER_LEFT" spacing="20" 
+          style="-fx-background-color: #3498db; -fx-padding: 20; -fx-background-radius: 10;">
+        <VBox spacing="5" HBox.hgrow="ALWAYS">
+            <Label text="📊 Daftar Nilai Akhir Mahasiswa" 
+                   style="-fx-font-size: 24px; -fx-font-weight: bold; -fx-text-fill: white;"/>
+            <Label text="Data nilai akhir dan IPK seluruh mahasiswa" 
+                   style="-fx-font-size: 14px; -fx-text-fill: #ecf0f1;"/>
+        </VBox>
+        <Button fx:id="kembaliButton" 
+                text="⬅ Kembali" 
+                onAction="#handleKembali"
+                prefHeight="40"
+                prefWidth="120"
+                style="-fx-background-color: #2c3e50; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 5;"/>
+    </HBox>
+    
+    <!-- ========== SECTION 1: NILAI AKHIR PER MATA KULIAH ========== -->
+    <VBox spacing="15" style="-fx-background-color: white; -fx-padding: 20; -fx-background-radius: 10;">
+        
+        <Label text="📋 NILAI AKHIR PER MATA KULIAH" 
+               style="-fx-font-size: 18px; -fx-font-weight: bold; -fx-text-fill: #2c3e50;"/>
+        
+        <Separator/>
+        
+        <!-- Info Bar untuk Nilai Akhir -->
+        <HBox spacing="15" alignment="CENTER_LEFT">
+            <Region HBox.hgrow="ALWAYS"/>
+            
+            <VBox spacing="5" alignment="CENTER">
+                <Label text="📋 Total Data" style="-fx-font-weight: bold; -fx-font-size: 13px; -fx-text-fill: #7f8c8d;"/>
+                <Label fx:id="totalDataLabel" text="0" 
+                       style="-fx-font-size: 28px; -fx-font-weight: bold; -fx-text-fill: #3498db;"/>
+            </VBox>
+        </HBox>
+        
+        <Separator/>
+        
+        <!-- Table Nilai Akhir -->
+        <HBox alignment="CENTER_LEFT" spacing="15">
+            <Label text="📊 Data Nilai Akhir" 
+                   style="-fx-font-size: 14px; -fx-font-weight: bold; -fx-text-fill: #2c3e50;"/>
+            <Region HBox.hgrow="ALWAYS"/>
+            <Button text="📄 Lihat Detail" 
+                    onAction="#handleDetail"
+                    prefHeight="35"
+                    style="-fx-background-color: #9b59b6; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 5;"/>
+        </HBox>
+        
+        <TableView fx:id="nilaiAkhirTable" prefHeight="350"
+                   style="-fx-font-size: 13px;">
+            <columns>
+                <TableColumn fx:id="npmColumn" text="NPM" prefWidth="100" 
+                            style="-fx-alignment: CENTER;"/>
+                <TableColumn fx:id="namaColumn" text="Nama Mahasiswa" prefWidth="200"/>
+                <TableColumn fx:id="matkulColumn" text="Mata Kuliah" prefWidth="250"/>
+                <TableColumn fx:id="sksColumn" text="SKS" prefWidth="60" 
+                            style="-fx-alignment: CENTER;"/>
+                <TableColumn fx:id="nilaiColumn" text="Nilai Akhir" prefWidth="100" 
+                            style="-fx-alignment: CENTER;"/>
+                <TableColumn fx:id="hurufColumn" text="Huruf" prefWidth="70" 
+                            style="-fx-alignment: CENTER;"/>
+                <TableColumn fx:id="bobotColumn" text="Bobot" prefWidth="80" 
+                            style="-fx-alignment: CENTER;"/>
+            </columns>
+            <placeholder>
+                <VBox alignment="CENTER" spacing="15">
+                    <Label text="📭" style="-fx-font-size: 48px;"/>
+                    <Label text="Belum ada data nilai akhir" 
+                           style="-fx-text-fill: #95a5a6; -fx-font-size: 16px; -fx-font-weight: bold;"/>
+                    <Label text="Silakan input nilai mahasiswa terlebih dahulu" 
+                           style="-fx-text-fill: #bdc3c7; -fx-font-size: 13px;"/>
+                </VBox>
+            </placeholder>
+        </TableView>
+    </VBox>
+    
+    <!-- ========== SECTION 2: IPK MAHASISWA ========== -->
+    <VBox spacing="15" style="-fx-background-color: white; -fx-padding: 20; -fx-background-radius: 10;">
+        
+        <Label text="🎓 INDEKS PRESTASI KUMULATIF (IPK)" 
+               style="-fx-font-size: 18px; -fx-font-weight: bold; -fx-text-fill: #27ae60;"/>
+        
+        <Separator/>
+        
+        <!-- Info Bar untuk IPK -->
+        <HBox spacing="15" alignment="CENTER_LEFT">
+            <Region HBox.hgrow="ALWAYS"/>
+            
+            <VBox spacing="5" alignment="CENTER">
+                <Label text="👥 Total Mahasiswa" style="-fx-font-weight: bold; -fx-font-size: 13px; -fx-text-fill: #7f8c8d;"/>
+                <Label fx:id="totalMahasiswaLabel" text="0" 
+                       style="-fx-font-size: 28px; -fx-font-weight: bold; -fx-text-fill: #27ae60;"/>
+            </VBox>
+            
+            <VBox spacing="8">
+                <Button fx:id="refreshButton" 
+                       text="🔄 Refresh" 
+                       onAction="#handleRefresh"
+                       prefWidth="120"
+                       prefHeight="35"
+                       style="-fx-background-color: #27ae60; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 5;"/>
+                <Button fx:id="recalculateButton" 
+                       text="🔢 Hitung Ulang IPK" 
+                       onAction="#handleRecalculate"
+                       prefWidth="120"
+                       prefHeight="35"
+                       style="-fx-background-color: #e67e22; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 5;"/>
+            </VBox>
+        </HBox>
+        
+        <Separator/>
+        
+        <!-- Table IPK -->
+        <HBox alignment="CENTER_LEFT" spacing="15">
+            <Label text="📈 Ranking IPK" 
+                   style="-fx-font-size: 14px; -fx-font-weight: bold; -fx-text-fill: #2c3e50;"/>
+            <Region HBox.hgrow="ALWAYS"/>
+            <Button text="📋 Lihat Detail IPK" 
+                    onAction="#handleDetailIPK"
+                    prefHeight="35"
+                    style="-fx-background-color: #27ae60; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 5;"/>
+        </HBox>
+        
+        <TableView fx:id="ipkTable" prefHeight="300"
+                   style="-fx-font-size: 13px;">
+            <columns>
+                <TableColumn fx:id="ipkNpmColumn" text="NPM" prefWidth="120" 
+                            style="-fx-alignment: CENTER;"/>
+                <TableColumn fx:id="ipkNamaColumn" text="Nama Mahasiswa" prefWidth="250"/>
+                <TableColumn fx:id="ipkJumlahMatkulColumn" text="Jumlah MK" prefWidth="100" 
+                            style="-fx-alignment: CENTER;"/>
+                <TableColumn fx:id="ipkTotalSksColumn" text="Total SKS" prefWidth="100" 
+                            style="-fx-alignment: CENTER;"/>
+                <TableColumn fx:id="ipkNilaiColumn" text="IPK" prefWidth="120" 
+                            style="-fx-alignment: CENTER;"/>
+            </columns>
+            <placeholder>
+                <VBox alignment="CENTER" spacing="15">
+                    <Label text="📊" style="-fx-font-size: 48px;"/>
+                    <Label text="Belum ada data IPK" 
+                           style="-fx-text-fill: #95a5a6; -fx-font-size: 16px; -fx-font-weight: bold;"/>
+                    <Label text="IPK akan terhitung otomatis setelah nilai mahasiswa diinput" 
+                           style="-fx-text-fill: #bdc3c7; -fx-font-size: 13px;"/>
+                </VBox>
+            </placeholder>
+        </TableView>
+        
+        <!-- Info Perhitungan IPK -->
+        <VBox spacing="8" style="-fx-background-color: #ecf0f1; -fx-padding: 15; -fx-background-radius: 5;">
+            <Label text="ℹ️ Cara Perhitungan IPK:" style="-fx-font-weight: bold; -fx-font-size: 13px;"/>
+            <Label text="• IPK = Σ(Bobot × SKS) / Σ SKS" style="-fx-font-size: 12px;"/>
+            <Label text="• Contoh: Jika mahasiswa mengambil 2 mata kuliah:" style="-fx-font-size: 12px;"/>
+            <Label text="  - PBO (3 SKS, Bobot 4.0) = 3 × 4.0 = 12" style="-fx-font-size: 12px; -fx-padding: 0 0 0 20;"/>
+            <Label text="  - SBD (2 SKS, Bobot 4.0) = 2 × 4.0 = 8" style="-fx-font-size: 12px; -fx-padding: 0 0 0 20;"/>
+            <Label text="  - IPK = (12 + 8) / (3 + 2) = 20 / 5 = 4.00" style="-fx-font-size: 12px; -fx-padding: 0 0 0 20;"/>
+        </VBox>
+    </VBox>
+    
+    <!-- Footer Info -->
+    <HBox alignment="CENTER" 
+          style="-fx-background-color: white; -fx-padding: 12; -fx-background-radius: 10;">
+        <Label text="💡 Tips: IPK otomatis terupdate saat nilai disimpan | Gunakan 'Hitung Ulang IPK' jika ada ketidaksesuaian data" 
+               style="-fx-text-fill: #7f8c8d; -fx-font-size: 12px;"/>
+    </HBox>
+    
+</VBox>
+</ScrollPane>
