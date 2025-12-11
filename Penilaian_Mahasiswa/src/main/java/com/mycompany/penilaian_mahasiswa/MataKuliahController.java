@@ -15,6 +15,13 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import java.net.URL;
 import java.sql.Connection;
 import java.util.ResourceBundle;
+import javafx.stage.Stage;
+import javafx.scene.Node;
+import javafx.event.ActionEvent;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import java.io.IOException;
 
 public class MataKuliahController implements Initializable {
     @FXML
@@ -58,101 +65,136 @@ public class MataKuliahController implements Initializable {
     }
 
     @FXML
-public void saveMataKuliah() {
-    String idMatkul = idMatkulField.getText();
-    String namaMatkul = namaMatkulField.getText();
-    int sks = 0;
-    float persentaseAbsensi = 0, persentaseTugas = 0, persentaseQuiz = 0, persentaseUts = 0, persentaseUas = 0;
-    Float persentaseResponsi = null;
+    public void saveMataKuliah() {
+        String idMatkul = idMatkulField.getText();
+        String namaMatkul = namaMatkulField.getText();
+        int sks = 0;
+        float persentaseAbsensi = 0, persentaseTugas = 0, persentaseQuiz = 0, persentaseUts = 0, persentaseUas = 0;
+        Float persentaseResponsi = null;
 
-    if (idMatkul.isEmpty() || namaMatkul.isEmpty() || sksField.getText().isEmpty() || persentaseAbsensiField.getText().isEmpty() || 
-        persentaseTugasField.getText().isEmpty() || persentaseQuizField.getText().isEmpty() || persentaseUtsField.getText().isEmpty() || 
-        persentaseUasField.getText().isEmpty()) {
-        showAlert("Error", "Harap lengkapi semua data mata kuliah.", AlertType.ERROR);
-        return;
-    }
-
-    try {
-        sks = Integer.parseInt(sksField.getText());
-        persentaseAbsensi = Float.parseFloat(persentaseAbsensiField.getText());
-        persentaseTugas = Float.parseFloat(persentaseTugasField.getText());
-        persentaseQuiz = Float.parseFloat(persentaseQuizField.getText());
-        persentaseUts = Float.parseFloat(persentaseUtsField.getText());
-        persentaseUas = Float.parseFloat(persentaseUasField.getText());
-        
-        if (!persentaseResponsiField.getText().isEmpty()) {
-            persentaseResponsi = Float.parseFloat(persentaseResponsiField.getText());
-        } else {
-            persentaseResponsi = null;
+        if (idMatkul.isEmpty() || namaMatkul.isEmpty() || sksField.getText().isEmpty() || persentaseAbsensiField.getText().isEmpty() || 
+            persentaseTugasField.getText().isEmpty() || persentaseQuizField.getText().isEmpty() || persentaseUtsField.getText().isEmpty() || 
+            persentaseUasField.getText().isEmpty()) {
+            showAlert("Error", "Harap lengkapi semua data mata kuliah.", AlertType.ERROR);
+            return;
         }
-    } catch (NumberFormatException e) {
-        showAlert("Error", "Pastikan semua input angka sudah benar.", AlertType.ERROR);
-        return;
+
+        try {
+            sks = Integer.parseInt(sksField.getText());
+            persentaseAbsensi = Float.parseFloat(persentaseAbsensiField.getText());
+            persentaseTugas = Float.parseFloat(persentaseTugasField.getText());
+            persentaseQuiz = Float.parseFloat(persentaseQuizField.getText());
+            persentaseUts = Float.parseFloat(persentaseUtsField.getText());
+            persentaseUas = Float.parseFloat(persentaseUasField.getText());
+            
+            if (!persentaseResponsiField.getText().isEmpty()) {
+                persentaseResponsi = Float.parseFloat(persentaseResponsiField.getText());
+            } else {
+                persentaseResponsi = null;
+            }
+        } catch (NumberFormatException e) {
+            showAlert("Error", "Pastikan semua input angka sudah benar.", AlertType.ERROR);
+            return;
+        }
+        MataKuliah mataKuliah = new MataKuliah(idMatkul, namaMatkul, sks);
+        if (saveMataKuliahToDatabase(mataKuliah, persentaseAbsensi, persentaseTugas, persentaseQuiz, persentaseUts, persentaseUas, persentaseResponsi)) {
+            mataKuliahList.add(mataKuliah); 
+            showAlert("Success", "Mata kuliah " + mataKuliah.getNamaMatkul() + " berhasil ditambahkan.", AlertType.INFORMATION);
+            clearFields();
+        } else {
+            showAlert("Error", "Gagal menyimpan mata kuliah ke database.", AlertType.ERROR);
+        }
     }
-    MataKuliah mataKuliah = new MataKuliah(idMatkul, namaMatkul, sks);
-    if (saveMataKuliahToDatabase(mataKuliah, persentaseAbsensi, persentaseTugas, persentaseQuiz, persentaseUts, persentaseUas, persentaseResponsi)) {
-        mataKuliahList.add(mataKuliah); 
-        showAlert("Success", "Mata kuliah " + mataKuliah.getNamaMatkul() + " berhasil ditambahkan.", AlertType.INFORMATION);
-    } else {
-        showAlert("Error", "Gagal menyimpan mata kuliah ke database.", AlertType.ERROR);
-    }
-}
 
-private boolean saveMataKuliahToDatabase(MataKuliah mataKuliah, float persentaseAbsensi, float persentaseTugas, float persentaseQuiz, 
-                                         float persentaseUts, float persentaseUas, Float persentaseResponsi) {
-    try (Connection connection = KoneksiDB.getConnection()) {
-        connection.setAutoCommit(false); 
-        
-        String queryMatkul = "INSERT INTO mata_kuliah (id_matkul, nama_matkul, sks) VALUES (?, ?, ?)";
-        try (PreparedStatement pstMatkul = connection.prepareStatement(queryMatkul)) {
-            pstMatkul.setString(1, mataKuliah.getIdMatkul());
-            pstMatkul.setString(2, mataKuliah.getNamaMatkul());
-            pstMatkul.setInt(3, mataKuliah.getSks());
+    private boolean saveMataKuliahToDatabase(MataKuliah mataKuliah, float persentaseAbsensi, float persentaseTugas, float persentaseQuiz, 
+                                             float persentaseUts, float persentaseUas, Float persentaseResponsi) {
+        try (Connection connection = KoneksiDB.getConnection()) {
+            connection.setAutoCommit(false); 
+            
+            String queryMatkul = "INSERT INTO mata_kuliah (id_matkul, nama_matkul, sks) VALUES (?, ?, ?)";
+            try (PreparedStatement pstMatkul = connection.prepareStatement(queryMatkul)) {
+                pstMatkul.setString(1, mataKuliah.getIdMatkul());
+                pstMatkul.setString(2, mataKuliah.getNamaMatkul());
+                pstMatkul.setInt(3, mataKuliah.getSks());
 
-            int resultMatkul = pstMatkul.executeUpdate();
+                int resultMatkul = pstMatkul.executeUpdate();
 
-            if (resultMatkul > 0) {
-                String queryPersentase = "INSERT INTO persentase_matkul (id_matkul, persentase_absensi, persentase_tugas, persentase_quiz, persentase_uts, persentase_uas, persentase_responsi) VALUES (?, ?, ?, ?, ?, ?, ?)";
-                try (PreparedStatement pstPersentase = connection.prepareStatement(queryPersentase)) {
-                    pstPersentase.setString(1, mataKuliah.getIdMatkul());
-                    pstPersentase.setFloat(2, persentaseAbsensi);
-                    pstPersentase.setFloat(3, persentaseTugas);
-                    pstPersentase.setFloat(4, persentaseQuiz);
-                    pstPersentase.setFloat(5, persentaseUts);
-                    pstPersentase.setFloat(6, persentaseUas);
-                    if (persentaseResponsi != null) {
-                        pstPersentase.setFloat(7, persentaseResponsi); 
-                    } else {
-                        pstPersentase.setNull(7, java.sql.Types.FLOAT); 
-                    }
+                if (resultMatkul > 0) {
+                    String queryPersentase = "INSERT INTO persentase_matkul (id_matkul, persentase_absensi, persentase_tugas, persentase_quiz, persentase_uts, persentase_uas, persentase_responsi) VALUES (?, ?, ?, ?, ?, ?, ?)";
+                    try (PreparedStatement pstPersentase = connection.prepareStatement(queryPersentase)) {
+                        pstPersentase.setString(1, mataKuliah.getIdMatkul());
+                        pstPersentase.setFloat(2, persentaseAbsensi);
+                        pstPersentase.setFloat(3, persentaseTugas);
+                        pstPersentase.setFloat(4, persentaseQuiz);
+                        pstPersentase.setFloat(5, persentaseUts);
+                        pstPersentase.setFloat(6, persentaseUas);
+                        if (persentaseResponsi != null) {
+                            pstPersentase.setFloat(7, persentaseResponsi); 
+                        } else {
+                            pstPersentase.setNull(7, java.sql.Types.FLOAT); 
+                        }
 
-                    int resultPersentase = pstPersentase.executeUpdate();
-                    if (resultPersentase > 0) {
-                        connection.commit();
-                        return true;
-                    } else {
+                        int resultPersentase = pstPersentase.executeUpdate();
+                        if (resultPersentase > 0) {
+                            connection.commit();
+                            return true;
+                        } else {
+                            connection.rollback();
+                            return false;
+                        }
+                    } catch (SQLException e) {
                         connection.rollback();
+                        System.err.println("Error saving persentase mata kuliah: " + e.getMessage());
                         return false;
                     }
-                } catch (SQLException e) {
+                } else {
                     connection.rollback();
-                    System.err.println("Error saving persentase mata kuliah: " + e.getMessage());
                     return false;
                 }
-            } else {
+            } catch (SQLException e) {
                 connection.rollback();
+                System.err.println("Error saving mata kuliah to database: " + e.getMessage());
                 return false;
             }
         } catch (SQLException e) {
-            connection.rollback();
-            System.err.println("Error saving mata kuliah to database: " + e.getMessage());
+            System.err.println("Error connecting to the database: " + e.getMessage());
             return false;
         }
-    } catch (SQLException e) {
-        System.err.println("Error connecting to the database: " + e.getMessage());
-        return false;
     }
-}
+
+    @FXML
+    public void kembali(ActionEvent event) {
+        try {
+          
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("primary.fxml"));
+            Parent root = loader.load();
+           
+            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+            Scene scene = new Scene(root);
+            stage.setScene(scene);
+            stage.setTitle("Dashboard");
+            stage.show();
+            
+            System.out.println("Kembali ke Primary/Dashboard");
+            
+        } catch (IOException e) {
+            System.err.println("Error saat kembali ke primary: " + e.getMessage());
+            e.printStackTrace();
+            showAlert("Error", "Gagal kembali ke halaman utama: " + e.getMessage(), AlertType.ERROR);
+        }
+    }
+
+    private void clearFields() {
+        idMatkulField.clear();
+        namaMatkulField.clear();
+        sksField.clear();
+        persentaseAbsensiField.clear();
+        persentaseTugasField.clear();
+        persentaseQuizField.clear();
+        persentaseUtsField.clear();
+        persentaseUasField.clear();
+        persentaseResponsiField.clear();
+    }
 
     private void showAlert(String title, String message, AlertType type) {
         Alert alert = new Alert(type);
