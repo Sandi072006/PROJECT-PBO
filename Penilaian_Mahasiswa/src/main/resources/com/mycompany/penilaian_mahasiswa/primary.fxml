@@ -1,13 +1,67 @@
 <?xml version="1.0" encoding="UTF-8"?>
+
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Separator?>
 <?import javafx.scene.layout.VBox?>
-<?import javafx.scene.Scene?>
-<?import javafx.stage.Stage?>
+<?import javafx.geometry.Insets?>
 
-<VBox alignment="CENTER" spacing="20" xmlns:fx="http://javafx.com/fxml" fx:controller="com.mycompany.penilaian_mahasiswa.PrimaryController"
-      stylesheets="@../styles/style.css">
+<VBox alignment="CENTER"
+      spacing="28"
+      xmlns:fx="http://javafx.com/fxml"
+      fx:controller="com.mycompany.penilaian_mahasiswa.PrimaryController"
+      style="-fx-padding: 45; -fx-background-color: linear-gradient(to bottom, #eef4ff, #dfe7f3);">
 
-    <Button text="Manage Mahasiswa" fx:id="manageMahasiswaButton" onAction="#manageMahasiswa"/>
-    <Button text="Manage Mata Kuliah" fx:id="manageMataKuliahButton" onAction="#manageMataKuliah"/>
-    <Button text="Manage Nilai" fx:id="manageNilaiButton" onAction="#manageNilai"/>
+    <VBox spacing="8" alignment="CENTER">
+        <Label text="Sistem Nilai Mahasiswa"
+               style="-fx-font-size: 24px; -fx-font-weight: bold; -fx-text-fill: #2c3e50;"/>
+
+        <Label text="Pilih menu untuk melanjutkan"
+               style="-fx-font-size: 13px; -fx-text-fill: #555;"/>
+    </VBox>
+
+    <Separator prefWidth="330" style="-fx-opacity: 0.4;"/>
+
+    <VBox spacing="14" alignment="CENTER">
+
+        <Button text="Kelola Data Mahasiswa"
+                fx:id="manageMahasiswaButton"
+                onAction="#manageMahasiswa"
+                prefWidth="270"
+                prefHeight="45"
+                style="-fx-background-color: #5dade2; -fx-text-fill: white;
+                       -fx-font-size: 14px; -fx-font-weight: bold;
+                       -fx-background-radius: 10;"/>
+
+        <Button text="Kelola Data Mata Kuliah"
+                fx:id="manageMataKuliahButton"
+                onAction="#manageMataKuliah"
+                prefWidth="270"
+                prefHeight="45"
+                style="-fx-background-color: #48c9b0; -fx-text-fill: white;
+                       -fx-font-size: 14px; -fx-font-weight: bold;
+                       -fx-background-radius: 10;"/>
+
+        <Button text="Kelola Nilai Mahasiswa"
+                fx:id="manageNilaiButton"
+                onAction="#manageNilai"
+                prefWidth="270"
+                prefHeight="45"
+                style="-fx-background-color: #f4d03f; -fx-text-fill: #2c3e50;
+                       -fx-font-size: 14px; -fx-font-weight: bold;
+                       -fx-background-radius: 10;"/>
+
+        <Button text="Lihat Nilai Akhir"
+                fx:id="lihatNilaiAkhirButton"
+                onAction="#lihatNilaiAkhir"
+                prefWidth="270"
+                prefHeight="45"
+                style="-fx-background-color: #af7ac5; -fx-text-fill: white;
+                       -fx-font-size: 14px; -fx-font-weight: bold;
+                       -fx-background-radius: 10;"/>
+
+    </VBox>
+
+    <Label text="Sistem Penilaian Mahasiswa"
+           style="-fx-font-size: 11px; -fx-text-fill: #566573;"/>
 </VBox>
