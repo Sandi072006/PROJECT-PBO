@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+
+<VBox xmlns="http://javafx.com/javafx/11.0.1"
+      xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="com.mycompany.penilaian_mahasiswa.LoginController"
+      alignment="CENTER"
+      spacing="25"
+      style="-fx-background-color: linear-gradient(to bottom, #3498db, #2980b9); -fx-padding: 50;">
+
+    <!-- Login Card -->
+    <VBox spacing="20" alignment="CENTER"
+          style="-fx-background-color: white; -fx-background-radius: 15; -fx-padding: 40; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.3), 15, 0, 0, 5);"
+          maxWidth="450">
+        
+        <!-- Header -->
+        <VBox spacing="8" alignment="CENTER">
+            <Label text="🔐" style="-fx-font-size: 48px;"/>
+            <Label text="Sistem Penilaian Mahasiswa" 
+                   style="-fx-font-size: 22px; -fx-font-weight: bold; -fx-text-fill: #2c3e50;"/>
+            <Label text="Silakan login untuk melanjutkan" 
+                   style="-fx-font-size: 13px; -fx-text-fill: #7f8c8d;"/>
+        </VBox>
+        
+        <Separator prefWidth="350" style="-fx-opacity: 0.3;"/>
+        
+        <!-- Form Login -->
+        <VBox spacing="18" alignment="CENTER">
+            
+            <!-- Role Selection -->
+            <VBox spacing="8" alignment="CENTER_LEFT">
+                <Label text="Pilih Role:" 
+                       style="-fx-font-weight: bold; -fx-font-size: 14px; -fx-text-fill: #34495e;"/>
+                <HBox spacing="20" alignment="CENTER">
+                    <RadioButton fx:id="adminRadio" text="Admin" 
+                                style="-fx-font-size: 13px; -fx-font-weight: bold;"
+                                toggleGroup="$roleGroup"/>
+                    <RadioButton fx:id="userRadio" text="User" 
+                                style="-fx-font-size: 13px; -fx-font-weight: bold;"
+                                toggleGroup="$roleGroup"/>
+                </HBox>
+            </VBox>
+            
+            <!-- Username Field -->
+            <VBox spacing="8" alignment="CENTER_LEFT">
+                <Label text="Username:" 
+                       style="-fx-font-weight: bold; -fx-font-size: 14px; -fx-text-fill: #34495e;"/>
+                <TextField fx:id="usernameField" 
+                          promptText="Masukkan username"
+                          prefWidth="350"
+                          prefHeight="40"
+                          style="-fx-font-size: 14px; -fx-background-radius: 8; -fx-border-color: #bdc3c7; -fx-border-radius: 8; -fx-border-width: 2;"/>
+            </VBox>
+            
+            <!-- Password Field -->
+            <VBox spacing="8" alignment="CENTER_LEFT">
+                <Label text="Password:" 
+                       style="-fx-font-weight: bold; -fx-font-size: 14px; -fx-text-fill: #34495e;"/>
+                <PasswordField fx:id="passwordField" 
+                              promptText="Masukkan password"
+                              prefWidth="350"
+                              prefHeight="40"
+                              style="-fx-font-size: 14px; -fx-background-radius: 8; -fx-border-color: #bdc3c7; -fx-border-radius: 8; -fx-border-width: 2;"/>
+            </VBox>
+            
+            <!-- Error Label -->
+            <Label fx:id="errorLabel" 
+                   text="" 
+                   textFill="red"
+                   wrapText="true"
+                   prefWidth="350"
+                   alignment="CENTER"
+                   style="-fx-font-size: 12px; -fx-font-weight: bold;"/>
+            
+            <!-- Login Button -->
+            <Button fx:id="loginButton" 
+                    text="🔓 Login" 
+                    onAction="#handleLogin"
+                    prefWidth="350"
+                    prefHeight="45"
+                    style="-fx-background-color: #27ae60; -fx-text-fill: white; -fx-font-size: 16px; -fx-font-weight: bold; -fx-background-radius: 8; -fx-cursor: hand;"/>
+        </VBox>
+        
+        <!-- Info Footer -->
+        <VBox spacing="8" alignment="CENTER" style="-fx-padding: 15 0 0 0;">
+            <Separator prefWidth="350" style="-fx-opacity: 0.3;"/>
+            <Label text="ℹ️ Default Admin: username=admin, password=admin" 
+                   style="-fx-font-size: 11px; -fx-text-fill: #95a5a6;"/>
+            <Label text="ℹ️ Default User: username=12345, password=user" 
+                   style="-fx-font-size: 11px; -fx-text-fill: #95a5a6;"/>
+        </VBox>
+    </VBox>
+    
+    <!-- Copyright -->
+    <Label text="© 2024 Sistem Penilaian Mahasiswa" 
+           style="-fx-text-fill: white; -fx-font-size: 12px;"/>
+</VBox>
