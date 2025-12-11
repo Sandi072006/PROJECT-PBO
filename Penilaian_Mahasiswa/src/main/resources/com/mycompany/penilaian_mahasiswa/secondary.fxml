@@ -1,59 +1,97 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<?import javafx.scene.layout.VBox?>
-<?import javafx.scene.control.Button?>
-<?import javafx.scene.control.TextField?>
-<?import javafx.scene.control.TableView?>
-<?import javafx.scene.control.TableColumn?>
-<?import javafx.scene.control.Spinner?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
 
-<VBox xmlns:fx="http://javafx.com/fxml" fx:controller="com.mycompany.penilaian_mahasiswa.SecondaryController" 
-      spacing="10" padding="20" 
-      stylesheets="@../styles/style.css">
-    <VBox fx:id="mahasiswaSection">
-        <TextField fx:id="npmField" promptText="NPM"/>
-        <TextField fx:id="namaField" promptText="Nama"/>
-        <TextField fx:id="jurusanField" promptText="Jurusan"/>
-        <TextField fx:id="angkatanField" promptText="Angkatan"/>
-        <TextField fx:id="prodiField" promptText="Program Studi"/>
+<VBox xmlns:fx="http://javafx.com/fxml" 
+      fx:controller="com.mycompany.penilaian_mahasiswa.SecondaryController" 
+      spacing="20" 
+      padding="30"
+      style="-fx-background-color: #f5f5f5;">
+    <HBox alignment="CENTER_LEFT" spacing="20">
+        <Label text="👥 Kelola Data Mahasiswa" 
+               style="-fx-font-size: 24px; -fx-font-weight: bold; -fx-text-fill: #2c3e50;"/>
+        <Region HBox.hgrow="ALWAYS"/>
+        <Button fx:id="kembaliButton" 
+                text="⬅ Kembali" 
+                onAction="#kembaliKeMenu"
+                style="-fx-background-color: #95a5a6; -fx-text-fill: white; -fx-font-weight: bold; -fx-padding: 8 15;"/>
+    </HBox>
+    
+    <Separator/>
+    <VBox spacing="15" style="-fx-background-color: white; -fx-padding: 20; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.1), 10, 0, 0, 2);">
+        <Label text="📝 Form Input Data Mahasiswa" 
+               style="-fx-font-size: 16px; -fx-font-weight: bold; -fx-text-fill: #2c3e50;"/>
+        <Separator/>
         
-        <Button text="Tambah Mahasiswa" onAction="#saveMahasiswa"/>
-        <TableView fx:id="mahasiswaTable">
+        <GridPane hgap="15" vgap="12">
+            <Label text="NPM:" GridPane.columnIndex="0" GridPane.rowIndex="0"
+                   style="-fx-font-weight: bold;"/>
+            <TextField fx:id="npmField" 
+                       GridPane.columnIndex="1" GridPane.rowIndex="0"
+                       promptText="Contoh: 2110512001"
+                       prefWidth="300"/>
+            
+            <Label text="Nama Lengkap:" GridPane.columnIndex="0" GridPane.rowIndex="1"
+                   style="-fx-font-weight: bold;"/>
+            <TextField fx:id="namaField" 
+                       GridPane.columnIndex="1" GridPane.rowIndex="1"
+                       promptText="Contoh: Ahmad Hidayat"
+                       prefWidth="300"/>
+            
+            <Label text="Jurusan:" GridPane.columnIndex="0" GridPane.rowIndex="2"
+                   style="-fx-font-weight: bold;"/>
+            <TextField fx:id="jurusanField" 
+                       GridPane.columnIndex="1" GridPane.rowIndex="2"
+                       promptText="Contoh: Teknik Informatika"
+                       prefWidth="300"/>
+            
+            <Label text="Angkatan:" GridPane.columnIndex="0" GridPane.rowIndex="3"
+                   style="-fx-font-weight: bold;"/>
+            <TextField fx:id="angkatanField" 
+                       GridPane.columnIndex="1" GridPane.rowIndex="3"
+                       promptText="Contoh: 2021"
+                       prefWidth="300"/>
+            
+            <Label text="Program Studi:" GridPane.columnIndex="0" GridPane.rowIndex="4"
+                   style="-fx-font-weight: bold;"/>
+            <TextField fx:id="prodiField" 
+                       GridPane.columnIndex="1" GridPane.rowIndex="4"
+                       promptText="Contoh: S1 Informatika"
+                       prefWidth="300"/>
+        </GridPane>
+        
+        <HBox alignment="CENTER" spacing="10" padding="10, 0, 0, 0">
+            <Button text="➕ Tambah Mahasiswa" 
+                    onAction="#saveMahasiswa"
+                    prefWidth="200"
+                    prefHeight="40"
+                    style="-fx-background-color: #27ae60; -fx-text-fill: white; -fx-font-weight: bold; -fx-font-size: 14px;"/>
+        </HBox>
+    </VBox>
+    
+    <VBox spacing="10" VBox.vgrow="ALWAYS" style="-fx-background-color: white; -fx-padding: 20; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.1), 10, 0, 0, 2);">
+        <Label text="📊 Daftar Mahasiswa" 
+               style="-fx-font-size: 16px; -fx-font-weight: bold; -fx-text-fill: #2c3e50;"/>
+        <Separator/>
+        
+        <TableView fx:id="mahasiswaTable" VBox.vgrow="ALWAYS">
             <columns>
-                <TableColumn text="NPM" />
-                <TableColumn text="Nama" />
-                <TableColumn text="Jurusan" />
-                <TableColumn text="Angkatan" />
-                <TableColumn text="Program Studi" />
+                <TableColumn fx:id="npmColumn" text="NPM" prefWidth="120" style="-fx-alignment: CENTER;"/>
+                <TableColumn fx:id="namaColumn" text="Nama Lengkap" prefWidth="200"/>
+                <TableColumn fx:id="jurusanColumn" text="Jurusan" prefWidth="180"/>
+                <TableColumn fx:id="angkatanColumn" text="Angkatan" prefWidth="100" style="-fx-alignment: CENTER;"/>
+                <TableColumn fx:id="prodiColumn" text="Program Studi" prefWidth="150"/>
             </columns>
+            <placeholder>
+                <Label text="Belum ada data mahasiswa" style="-fx-text-fill: #95a5a6;"/>
+            </placeholder>
         </TableView>
     </VBox>
-    <VBox fx:id="mataKuliahSection">
-        <TextField fx:id="namaMatkulField" promptText="Nama Mata Kuliah"/>
-        <Spinner fx:id="sksField" promptText="SKS"/>
-        
-        <TextField fx:id="persentaseAbsensiField" promptText="Persentase Absensi"/>
-        <TextField fx:id="persentaseTugasField" promptText="Persentase Tugas"/>
-        <TextField fx:id="persentaseQuizField" promptText="Persentase Quiz"/>
-        <TextField fx:id="persentaseUtsField" promptText="Persentase UTS"/>
-        <TextField fx:id="persentaseUasField" promptText="Persentase UAS"/>
-        <TextField fx:id="persentaseResponsiField" promptText="Persentase Responsi"/>
-        
-        <Button text="Simpan Mata Kuliah" onAction="#saveMataKuliah"/>
-    </VBox>
-    <VBox fx:id="nilaiSection">
-        <TextField fx:id="nilaiUasField" promptText="Nilai UAS"/>
-        <TextField fx:id="nilaiUtsField" promptText="Nilai UTS"/>
-        
-        <Spinner fx:id="jumlahQuizField" promptText="Jumlah Quiz"/>
-        <TextField fx:id="nilaiQuizField" promptText="Nilai Quiz"/>
-        
-        <Spinner fx:id="jumlahTugasField" promptText="Jumlah Tugas"/>
-        <TextField fx:id="nilaiTugasField" promptText="Nilai Tugas"/>
-        
-        <TextField fx:id="jumlahPertemuanField" promptText="Jumlah Pertemuan"/>
-        <TextField fx:id="jumlahHadirField" promptText="Jumlah Hadir"/>
-        
-        <Button text="Simpan Nilai" onAction="#saveNilai"/>
-    </VBox>
+    
+    <HBox alignment="CENTER" spacing="10" style="-fx-background-color: #ecf0f1; -fx-padding: 10;">
+        <Label text="💡 Tips: Isi semua field untuk menambah data mahasiswa baru" 
+               style="-fx-text-fill: #7f8c8d; -fx-font-size: 12px;"/>
+    </HBox>
     
 </VBox>
