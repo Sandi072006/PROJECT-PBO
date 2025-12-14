@@ -40,7 +40,6 @@ public class NilaiAkhirController {
     @FXML
     private TableColumn<NilaiAkhir, Float> bobotColumn;
     
-    // IPK Table
     @FXML
     private TableView<IPKMahasiswa> ipkTable;
     
@@ -69,21 +68,24 @@ public class NilaiAkhirController {
     private Button recalculateButton;
     
     @FXML
+    private Button logoutButton;  // Tombol Logout untuk User
+    
+    @FXML
     private Label totalDataLabel;
     
     @FXML
     private Label totalMahasiswaLabel;
     
+    @FXML
+    private Label userRoleLabel;
+    
     private ObservableList<NilaiAkhir> nilaiList = FXCollections.observableArrayList();
     private ObservableList<IPKMahasiswa> ipkList = FXCollections.observableArrayList();
-    
-    // Flag untuk menandakan apakah user adalah User (bukan Admin)
     private boolean isUserRole = false;
     
     public void initialize() {
         System.out.println("=== NilaiAkhirController initialized ===");
         
-        // Setup table columns untuk Nilai Akhir
         npmColumn.setCellValueFactory(new PropertyValueFactory<>("npm"));
         namaColumn.setCellValueFactory(new PropertyValueFactory<>("namaMahasiswa"));
         matkulColumn.setCellValueFactory(new PropertyValueFactory<>("namaMatkul"));
@@ -92,14 +94,12 @@ public class NilaiAkhirController {
         hurufColumn.setCellValueFactory(new PropertyValueFactory<>("hurufMatkul"));
         bobotColumn.setCellValueFactory(new PropertyValueFactory<>("bobotMatkul"));
         
-        // Setup table columns untuk IPK
         ipkNpmColumn.setCellValueFactory(new PropertyValueFactory<>("npm"));
         ipkNamaColumn.setCellValueFactory(new PropertyValueFactory<>("namaMahasiswa"));
         ipkJumlahMatkulColumn.setCellValueFactory(new PropertyValueFactory<>("jumlahMatkul"));
         ipkTotalSksColumn.setCellValueFactory(new PropertyValueFactory<>("totalSks"));
         ipkNilaiColumn.setCellValueFactory(new PropertyValueFactory<>("ipk"));
         
-        // Format nilai dengan 2 desimal
         nilaiColumn.setCellFactory(col -> new TableCell<NilaiAkhir, Float>() {
             @Override
             protected void updateItem(Float item, boolean empty) {
@@ -135,24 +135,73 @@ public class NilaiAkhirController {
                 }
             }
         });
-        
-        // Load data
         loadData();
         loadIpkData();
     }
-    
-    /**
-     * Method untuk set role user
-     * Dipanggil dari LoginController setelah login sebagai User
-     */
     public void setUserRole(boolean isUser) {
         this.isUserRole = isUser;
         
-        // Sembunyikan tombol kembali jika user adalah User (bukan Admin)
-        if (isUser && kembaliButton != null) {
-            kembaliButton.setVisible(false);
-            kembaliButton.setManaged(false); // Agar tidak mengambil space
-            System.out.println("✓ Tombol kembali disembunyikan untuk User");
+        if (isUser) {
+            if (kembaliButton != null) {
+                kembaliButton.setVisible(false);
+                kembaliButton.setManaged(false);
+            }
+            if (logoutButton != null) {
+                logoutButton.setVisible(true);
+                logoutButton.setManaged(true);
+            }
+            if (userRoleLabel != null) {
+                userRoleLabel.setText("👤 Login sebagai: User");
+                userRoleLabel.setStyle("-fx-text-fill: #3498db; -fx-font-weight: bold;");
+            }
+            
+            System.out.println("✓ UI configured for User role");
+        } else {
+            if (kembaliButton != null) {
+                kembaliButton.setVisible(true);
+                kembaliButton.setManaged(true);
+            }
+            if (logoutButton != null) {
+                logoutButton.setVisible(false);
+                logoutButton.setManaged(false);
+            }
+            if (userRoleLabel != null) {
+                userRoleLabel.setText("👤 Login sebagai: Admin");
+                userRoleLabel.setStyle("-fx-text-fill: #27ae60; -fx-font-weight: bold;");
+            }
+            System.out.println("✓ UI configured for Admin role");
+        }
+    }
+    
+    @FXML
+    public void handleLogoutUser() {
+        System.out.println("=== USER LOGOUT CLICKED ===");
+        Alert confirm = new Alert(Alert.AlertType.CONFIRMATION);
+        confirm.setTitle("Konfirmasi Logout");
+        confirm.setHeaderText("Anda yakin ingin logout?");
+        confirm.setContentText("Anda akan kembali ke halaman login.");
+        
+        if (confirm.showAndWait().get() == ButtonType.OK) {
+            try {
+                System.out.println("Logging out user...");
+                FXMLLoader loader = new FXMLLoader(
+                    getClass().getResource("/com/mycompany/penilaian_mahasiswa/login.fxml")
+                );
+                Parent root = loader.load();
+                
+                Stage stage = (Stage) logoutButton.getScene().getWindow();
+                Scene scene = new Scene(root, 600, 700);
+                stage.setScene(scene);
+                stage.setTitle("Login - Sistem Penilaian Mahasiswa");
+                stage.show();
+                
+                System.out.println("✓ User successfully logged out");
+                
+            } catch (Exception e) {
+                System.err.println("Error during user logout: " + e.getMessage());
+                e.printStackTrace();
+                showAlert("Error", "Gagal logout: " + e.getMessage(), Alert.AlertType.ERROR);
+            }
         }
     }
     
@@ -268,12 +317,8 @@ public class NilaiAkhirController {
         confirm.setContentText("Proses ini akan menghitung ulang IPK untuk semua mahasiswa.\nLanjutkan?");
         
         if (confirm.showAndWait().get() == ButtonType.OK) {
-            // Recalculate all IPK
             IPK.recalculateAllIPK();
-            
-            // Reload data
             loadIpkData();
-            
             showAlert("Success", "Semua IPK berhasil dihitung ulang!", Alert.AlertType.INFORMATION);
         }
     }
@@ -284,7 +329,7 @@ public class NilaiAkhirController {
         
         // Jika user adalah User role, jangan izinkan kembali
         if (isUserRole) {
-            showAlert("Info", "Anda login sebagai User. Silakan logout untuk keluar.", Alert.AlertType.INFORMATION);
+            showAlert("Info", "Silakan gunakan tombol Logout untuk keluar.", Alert.AlertType.INFORMATION);
             return;
         }
         
@@ -337,7 +382,6 @@ public class NilaiAkhirController {
         }
         
         try (Connection conn = KoneksiDB.getConnection()) {
-            // Query untuk mendapatkan detail mata kuliah
             String query = "SELECT " +
                           "mk.nama_matkul, " +
                           "mk.sks, " +
