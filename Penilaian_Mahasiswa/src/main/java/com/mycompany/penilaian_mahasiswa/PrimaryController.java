@@ -4,6 +4,7 @@ import java.io.IOException;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonType;
 import javafx.stage.Stage;
 import javafx.scene.Scene;
 import javafx.fxml.FXMLLoader;
@@ -20,6 +21,9 @@ public class PrimaryController {
     private Button manageNilaiButton;
     @FXML
     private Button lihatNilaiAkhirButton;
+    @FXML
+    private Button logoutButton;
+    
     @FXML
     public void manageMahasiswa() {
         try {
@@ -72,7 +76,6 @@ public class PrimaryController {
         System.out.println("=== LIHAT NILAI AKHIR CLICKED ===");
         
         try {
-          
             String[] pathsToTry = {
                 "/com/mycompany/penilaian_mahasiswa/nilai_akhir.fxml",
                 "com/mycompany/penilaian_mahasiswa/nilai_akhir.fxml",
@@ -121,7 +124,6 @@ public class PrimaryController {
             
             System.out.println("✓ FXML loaded successfully");
             
-            // Get stage dan set scene
             Stage stage = getStageFromButtons();
             if (stage == null) {
                 throw new IOException("Cannot get stage from buttons");
@@ -142,6 +144,42 @@ public class PrimaryController {
             System.err.println("Exception in lihatNilaiAkhir: " + e.getMessage());
             e.printStackTrace();
             showError("Gagal membuka halaman Nilai Akhir", e);
+        }
+    }
+ 
+    @FXML
+    public void handleLogout() {
+        System.out.println("=== LOGOUT CLICKED ===");
+        Alert confirm = new Alert(Alert.AlertType.CONFIRMATION);
+        confirm.setTitle("Konfirmasi Logout");
+        confirm.setHeaderText("Anda yakin ingin logout?");
+        confirm.setContentText("Anda akan kembali ke halaman login.");
+        
+        if (confirm.showAndWait().get() == ButtonType.OK) {
+            try {
+                System.out.println("Logging out admin...");
+                FXMLLoader loader = new FXMLLoader(
+                    getClass().getResource("/com/mycompany/penilaian_mahasiswa/login.fxml")
+                );
+                Parent root = loader.load();
+                
+                Stage stage = getStageFromButtons();
+                if (stage == null) {
+                    throw new IOException("Cannot get stage from buttons");
+                }
+                
+                Scene scene = new Scene(root, 600, 700);
+                stage.setScene(scene);
+                stage.setTitle("Login - Sistem Penilaian Mahasiswa");
+                stage.show();
+                
+                System.out.println("✓ Successfully logged out");
+                
+            } catch (Exception e) {
+                System.err.println("Error during logout: " + e.getMessage());
+                e.printStackTrace();
+                showError("Gagal logout", e);
+            }
         }
     }
    
@@ -213,6 +251,9 @@ public class PrimaryController {
         }
         if (lihatNilaiAkhirButton != null && lihatNilaiAkhirButton.getScene() != null) {
             return (Stage) lihatNilaiAkhirButton.getScene().getWindow();
+        }
+        if (logoutButton != null && logoutButton.getScene() != null) {
+            return (Stage) logoutButton.getScene().getWindow();
         }
         return null;
     }
