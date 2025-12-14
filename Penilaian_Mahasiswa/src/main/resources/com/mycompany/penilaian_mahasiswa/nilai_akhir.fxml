@@ -12,7 +12,7 @@
 <VBox spacing="20" 
       style="-fx-padding: 30; -fx-background-color: #ecf0f1;">
     
-    <!-- Header -->
+    <!-- Header dengan Kembali/Logout Button -->
     <HBox alignment="CENTER_LEFT" spacing="20" 
           style="-fx-background-color: #3498db; -fx-padding: 20; -fx-background-radius: 10;">
         <VBox spacing="5" HBox.hgrow="ALWAYS">
@@ -20,13 +20,29 @@
                    style="-fx-font-size: 24px; -fx-font-weight: bold; -fx-text-fill: white;"/>
             <Label text="Data nilai akhir dan IPK seluruh mahasiswa" 
                    style="-fx-font-size: 14px; -fx-text-fill: #ecf0f1;"/>
+            <Label fx:id="userRoleLabel" text="👤 Login sebagai: Admin" 
+                   style="-fx-font-size: 12px; -fx-text-fill: white; -fx-font-weight: bold;"/>
         </VBox>
+        
+        <!-- Tombol Kembali (untuk Admin) -->
         <Button fx:id="kembaliButton" 
                 text="⬅ Kembali" 
                 onAction="#handleKembali"
                 prefHeight="40"
                 prefWidth="120"
+                visible="true"
+                managed="true"
                 style="-fx-background-color: #2c3e50; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 5;"/>
+        
+        <!-- Tombol Logout (untuk User) -->
+        <Button fx:id="logoutButton" 
+                text="🚪 Logout" 
+                onAction="#handleLogoutUser"
+                prefHeight="40"
+                prefWidth="120"
+                visible="false"
+                managed="false"
+                style="-fx-background-color: #e74c3c; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 5;"/>
     </HBox>
     
     <!-- ========== SECTION 1: NILAI AKHIR PER MATA KULIAH ========== -->
