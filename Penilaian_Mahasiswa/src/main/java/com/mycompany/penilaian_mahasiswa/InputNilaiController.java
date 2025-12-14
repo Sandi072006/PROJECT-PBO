@@ -468,19 +468,30 @@ public class InputNilaiController implements Initializable {
     }
     
     private float konversiNilaiKeBobot(String huruf) {
-        return switch (huruf) {
-            case "A" -> 4.0f;
-            case "A-" -> 3.7f;
-            case "B+" -> 3.3f;
-            case "B" -> 3.0f;
-            case "B-" -> 2.7f;
-            case "C+" -> 2.3f;
-            case "C" -> 2.0f;
-            case "D" -> 1.0f;
-            case "E" -> 0.0f;
-            default -> 0.0f;
-        };
+    switch (huruf) {
+        case "A":
+            return 4.0f;
+        case "A-":
+            return 3.7f;
+        case "B+":
+            return 3.3f;
+        case "B":
+            return 3.0f;
+        case "B-":
+            return 2.7f;
+        case "C+":
+            return 2.3f;
+        case "C":
+            return 2.0f;
+        case "D":
+            return 1.0f;
+        case "E":
+            return 0.0f;
+        default:
+            return 0.0f;
     }
+}
+
   
     private void showAlert(String title, String message, Alert.AlertType type) {
         Alert alert = new Alert(type);
